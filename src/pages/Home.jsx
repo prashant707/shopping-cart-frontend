@@ -30,7 +30,7 @@ export default function Home(){
               />
               <div className="position-absolute top-50 start-50 translate-middle w-100">
                 <div className="bg-white bg-opacity-75 py-1 fw-bold">
-                  <Link to={`/products/${category._id}`}>{category.name}</Link>
+                  <Link to={`/products/category/${category._id}`}>{category.name}</Link>
                 </div>
               </div>
             </div>

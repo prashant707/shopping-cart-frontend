@@ -1,4 +1,4 @@
-import { createContext,useContext } from "react";
+import { createContext,useContext, useEffect } from "react";
 import { useState } from "react";
 
 const CartContext = createContext();
@@ -8,14 +8,34 @@ const useCartContext = ()=> useContext(CartContext);
 export default useCartContext;
 
 export const CartContextProvider = ({children})=>{
+
+const userId = '67ee246df24c44d71f285bb6';
 const [cartData,setCartData] = useState([]);
+console.log("cart data >>>",cartData);
+useEffect(()=>{
+    const fetchCartData = async ()=>{
+        const response = await fetch(`http://localhost:3000/api/cart/${userId}`);
+
+        if(!response.ok){
+            throw "An error occurred";
+            
+        }
+
+        const data = await response.json();
+
+        if(data.message==="Cart Data fetched Successfully"){
+            setCartData(data.data.cart)
+        }
+    }
+    fetchCartData();
+},[])
 
 async function addItemToCart(product){
     try{
         const reqBody = {
             userId:'67ee246df24c44d71f285bb6',
-            products:product._id,
-            price:product.price
+            productId:product._id,
+            // price:product.price
         }
         const response = await fetch(`http://localhost:3000/api/cart/add`,{
             method:"POST",
@@ -32,11 +52,11 @@ async function addItemToCart(product){
         const data = await response.json();
         console.log("data>>",data)
         if(data.message=='Cart updated Successfully.'){
-            const prodAlreadyInCart = cartData.some(cart=>cart.products==product._id);
+            const prodAlreadyInCart = cartData.some(cart=>cart.product._id==product._id);
     console.log("is product already in cart>>",prodAlreadyInCart)
     if(prodAlreadyInCart){
         const updatedCart = cartData.map((cart)=>{
-            if(cart.products==product._id){
+            if(cart.product._id==product._id){
                 return {...cart,quantity:cart.quantity+1}
             }
             return cart;
@@ -45,9 +65,8 @@ async function addItemToCart(product){
     }else{
        const newCartItem = {
         userId:'67ee246df24c44d71f285bb6',
-        products:product._id,
-        quantity:1,
-        price:product.price
+        product:product,
+        quantity:1
        } 
 
        setCartData((prevState)=>[...prevState,newCartItem])
@@ -65,7 +84,7 @@ async function addItemToCart(product){
     try{
         const reqBody = {
             userId:'67ee246df24c44d71f285bb6',
-            products:product._id
+            productId:product._id
         }
         const response = await fetch(`http://localhost:3000/api/cart/delete`,{
             method:"DELETE",
@@ -76,7 +95,7 @@ async function addItemToCart(product){
         const data = await response.json();
 
         if(data.message=='Item deleted successfully.'){
-            setCartData(cartData.filter(cart=>cart.products != product._id)) 
+            setCartData(cartData.filter(cart=>cart.product._id != product._id)) 
         }
         
     }catch(error){
@@ -85,7 +104,77 @@ async function addItemToCart(product){
    
    }
 
-return <CartContext.Provider value={{cartData,addItemToCart,removeItemFromCart}}>
+
+   async function increaseDecreaseQuantity(product,action) {
+     try{
+        const reqBody = {
+            userId:'67ee246df24c44d71f285bb6',
+            productId:product._id,
+            action:action
+        }
+        const response = await fetch(`http://localhost:3000/api/cart/add`,{
+            method:"POST",
+            body:JSON.stringify(reqBody),
+            headers:{'Content-Type':'application/json'}
+        });
+
+        console.log("respinse>>",response)
+
+        if(!response.ok){
+            throw "Failed to add/update"
+        }
+
+        const data = await response.json();
+        console.log("data>>",data)
+        if(data.message=='Cart updated Successfully.'){
+            const prodAlreadyInCart = cartData.some(cart=>cart.product._id==product._id);
+    console.log("is product already in cart>>",prodAlreadyInCart)
+    if(prodAlreadyInCart && action =="increase"){
+        const updatedCart = cartData.map((cart)=>{
+            if(cart.product._id==product._id){
+                return {...cart,quantity:cart.quantity+1}
+            }
+            return cart;
+        })
+        setCartData(updatedCart);
+    }else if(prodAlreadyInCart && action =="decrease"){
+        const updatedCart = cartData.map((cart)=>{
+
+            if(cart.product._id==product._id && cart.quantity>1){
+                return {...cart,quantity:cart.quantity-1}
+            }
+            return cart;
+        })
+        setCartData(updatedCart);
+    }else if(prodAlreadyInCart){
+        const updatedCart = cartData.map((cart)=>{
+            if(cart.product._id==product._id){
+                return {...cart,quantity:cart.quantity+1}
+            }
+            return cart;
+        })
+        setCartData(updatedCart);
+    }
+    
+    else{
+       const newCartItem = {
+        userId:'67ee246df24c44d71f285bb6',
+        product:product,
+        quantity:1
+       } 
+
+       setCartData((prevState)=>[...prevState,newCartItem])
+        }
+        
+    }else if(data.message=='Product removed from cart.'){
+        setCartData(cartData.filter(cart=>cart.product._id != product._id))
+    }
+    }catch(error){
+        console.log(error)
+    }
+   }
+
+return <CartContext.Provider value={{cartData,addItemToCart,removeItemFromCart,increaseDecreaseQuantity}}>
     {children}
 </CartContext.Provider>
 }
