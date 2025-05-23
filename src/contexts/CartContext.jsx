@@ -12,9 +12,10 @@ export const CartContextProvider = ({children})=>{
 const userId = '67ee246df24c44d71f285bb6';
 const [cartData,setCartData] = useState([]);
 console.log("cart data >>>",cartData);
+
 useEffect(()=>{
     const fetchCartData = async ()=>{
-        const response = await fetch(`http://localhost:3000/api/cart/${userId}`);
+        const response = await fetch(`https://shopping-cart-backend-eta.vercel.app/api/cart/${userId}`);
 
         if(!response.ok){
             throw "An error occurred";
@@ -37,7 +38,7 @@ async function addItemToCart(product){
             productId:product._id,
             // price:product.price
         }
-        const response = await fetch(`http://localhost:3000/api/cart/add`,{
+        const response = await fetch(`https://shopping-cart-backend-eta.vercel.app/api/cart/add`,{
             method:"POST",
             body:JSON.stringify(reqBody),
             headers:{'Content-Type':'application/json'}
@@ -86,7 +87,7 @@ async function addItemToCart(product){
             userId:'67ee246df24c44d71f285bb6',
             productId:product._id
         }
-        const response = await fetch(`http://localhost:3000/api/cart/delete`,{
+        const response = await fetch(`https://shopping-cart-backend-eta.vercel.app/api/cart/delete`,{
             method:"DELETE",
             body:JSON.stringify(reqBody),
             headers:{"Content-Type":"application/json"}
@@ -112,7 +113,7 @@ async function addItemToCart(product){
             productId:product._id,
             action:action
         }
-        const response = await fetch(`http://localhost:3000/api/cart/add`,{
+        const response = await fetch(`https://shopping-cart-backend-eta.vercel.app/api/cart/add`,{
             method:"POST",
             body:JSON.stringify(reqBody),
             headers:{'Content-Type':'application/json'}

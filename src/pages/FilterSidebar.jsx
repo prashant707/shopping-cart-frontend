@@ -1,6 +1,9 @@
-export default function FilterSidebar({filters,setFilters,categories}){
+import useFilterContext from "../contexts/FilterContext";
 
+export default function FilterSidebar({categories}){
 
+    const {filters,setFilters} = useFilterContext();
+    const ratings = [1,2,3,4,5];
     const handleChange =(event)=>{
         const {value,checked} = event.target;
         if(checked){
@@ -20,9 +23,10 @@ export default function FilterSidebar({filters,setFilters,categories}){
   <h5>Filters</h5>
   <p onClick={() => setFilters({
     minPrice: 0,
-    maxPrice: 5000,
+    maxPrice: 10000,
     sortBy: '',
-    selectedCategory: '',
+    selectedCategory: [],
+    ratings:1,
     searchText:''
   })}>Clear</p>
 </div>
@@ -30,22 +34,23 @@ export default function FilterSidebar({filters,setFilters,categories}){
 
             <div className="mb-4">
         <label className="form-label">Price</label>
-        <input type="range" className="form-range" min="0" max="5000" step="50"
+        <input type="range" className="form-range" min="0" max="10000" step="50"
           value={filters.maxPrice}
           onChange={(e) =>
             setFilters((prev) => ({ ...prev, maxPrice: parseInt(e.target.value) }))
           }
         />
         <div className="d-flex justify-content-between">
+          <span>₹{filters.minPrice}</span>
           <span>₹{filters.maxPrice}</span>
-          <span>₹5000</span>
         
       </div>
           <br/>
         <div>
+{/*  */}
             <h4>Sort By</h4>
-            <label>Price - Low to High  <input type="radio" name="sortBy" checked={filters.sortBy.includes("lowToHigh")} value="lowToHigh" onChange={handleChange}/> </label><br/>
-            <label>Price - High to Low  <input type="radio" name="sortBy" checked={filters.sortBy.includes("highToLow")} value="highToLow" onChange={handleChange}/> </label>
+            <label>Price - Low to High  <input type="radio" name="sortBy" checked={filters.sortBy.includes("lowToHigh")}  value="lowToHigh" onChange={(event)=>{setFilters(prev=>({...prev,sortBy:event.target.value}))}}/> </label><br/>
+            <label>Price - High to Low  <input type="radio" name="sortBy" checked={filters.sortBy.includes("highToLow")}   value="highToLow" onChange={(event)=>{setFilters(prev=>({...prev,sortBy:event.target.value}))}}/> </label>
         </div>
 
         <br/>
@@ -56,7 +61,11 @@ export default function FilterSidebar({filters,setFilters,categories}){
                 <label>{category}</label>
             </div>)}
         </div> 
-
+          <br/>
+      <div>
+        <h4>Rating:</h4>
+        {ratings.map(rating=><div><input type="radio" name="radio" value={rating} /> <label>{`${rating} star & above`}</label></div>)}
+        </div>  
         </div>
     </div>
 }

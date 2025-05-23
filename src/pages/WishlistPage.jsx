@@ -21,7 +21,7 @@ export default function WishlistPage(){
                     const userId = '67ee246df24c44d71f285bb6';
                     if(!userId) return;
     
-                    const response = await fetch(`http://localhost:3000/api/wishlist/${userId}`);
+                    const response = await fetch(`https://shopping-cart-backend-eta.vercel.app/api/wishlist/${userId}`);
                     if(!response.ok){
                     throw "Error occurred while fetching wishlist";
                 }

@@ -16,7 +16,7 @@ export const WishlistContextProvider = ({children})=>{
                 const userId = '67ee246df24c44d71f285bb6';
                 if(!userId) return;
 
-                const response = await fetch(`http://localhost:3000/api/wishlist/${userId}`);
+                const response = await fetch(`https://shopping-cart-backend-eta.vercel.app/api/wishlist/${userId}`);
                 if(!response.ok){
                 throw "Error occurred while fetching wishlist";
             }
@@ -48,7 +48,7 @@ export const WishlistContextProvider = ({children})=>{
                 userId:'67ee246df24c44d71f285bb6',
                 productId:productId
             }
-            const response =await fetch(`http://localhost:3000/api/wishlist/add`,{
+            const response =await fetch(`https://shopping-cart-backend-eta.vercel.app/api/wishlist/add`,{
                 method:"POST",
                 body:JSON.stringify(reqBody),
                 headers:{"Content-Type":"application/json"}
@@ -86,7 +86,7 @@ export const WishlistContextProvider = ({children})=>{
                 userId:'67ee246df24c44d71f285bb6',
                 productId:productId
             }
-            const response =await fetch(`http://localhost:3000/api/wishlist/delete`,{
+            const response =await fetch(`https://shopping-cart-backend-eta.vercel.app/api/wishlist/delete`,{
                 method:"Delete",
                 body:JSON.stringify(reqBody),
                 headers:{"Content-Type":"application/json"}

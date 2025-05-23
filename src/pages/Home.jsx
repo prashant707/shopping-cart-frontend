@@ -6,7 +6,7 @@ import { Link } from "react-router-dom";
 
 export default function Home(){
 
-    const {data,loading,error} = useFetch('http://localhost:3000/shoppingcart/categories/');
+    const {data,loading,error} = useFetch('https://shopping-cart-backend-eta.vercel.app/shoppingcart/categories/');
     console.log("Home>>>",data);
 
     return <div className="container py-4">
@@ -30,7 +30,7 @@ export default function Home(){
               />
               <div className="position-absolute top-50 start-50 translate-middle w-100">
                 <div className="bg-white bg-opacity-75 py-1 fw-bold">
-                  <Link to={`/products/category/${category._id}`}>{category.name}</Link>
+                  <Link to={`/products/category/${category.name}`}>{category.name}</Link>
                 </div>
               </div>
             </div>

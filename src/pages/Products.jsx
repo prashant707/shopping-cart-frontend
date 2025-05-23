@@ -3,6 +3,7 @@ import { useParams } from "react-router-dom";
 import useFetch from "../useFetch";
 import ProductCard from "./ProductCard";
 import FilterSidebar from "./FilterSidebar";
+import useFilterContext from "../contexts/FilterContext";
 
 
 export default function Products(){
@@ -10,21 +11,23 @@ export default function Products(){
     const [apiUrl,setApiUrl] = useState("");
     const [hasCategoryLoaded, setHasCategoryLoaded] = useState(false);
     const [categories,setCategories] = useState([]);
+    const {filters,setFilters} = useFilterContext();
 
-    const [filters,setFilters] = useState({
-        minPrice:0,
-        maxPrice:2000,
-        sortBy:'lowToHigh',
-        selectedCategory:[],
-        searchText:''
-    });
+    // const [filters,setFilters] = useState({
+    //     minPrice:0,
+    //     maxPrice:10000,
+    //     sortBy:'lowToHigh',
+    //     selectedCategory:[],
+    //     searchText:''
+    // });
 
 
-    const categoryId = useParams().categoryId;
+    const categoryName = useParams().categoryName;
+    // console.log("category>>>",categoryName)
 
     useEffect(()=> {
         async function fetchCategories() {
-            const result = await fetch('http://localhost:3000/shoppingcart/categories')
+            const result = await fetch('https://shopping-cart-backend-eta.vercel.app/shoppingcart/categories')
 
             if(!result.ok){
                 throw "An error occurred.";
@@ -39,24 +42,32 @@ export default function Products(){
     },[])
 
     useEffect(() => {
-    if (categoryId && !hasCategoryLoaded) {
+    if (categoryName && !hasCategoryLoaded) {
       setFilters((prev) => ({
         ...prev,
-        selectedCategory: [categoryId],
+        selectedCategory: [categoryName],
       }));
       setHasCategoryLoaded(true);
     }
-  }, [categoryId, hasCategoryLoaded]);
+  }, [categoryName, hasCategoryLoaded]);
 
         
     useEffect(() => {
     if (filters.searchText) {
       setApiUrl(
-        `http://localhost:3000/api/products?search=${filters.searchText}`
+        `https://shopping-cart-backend-eta.vercel.app/api/products?search=${filters.searchText}`
       );
     } else {
+        // let categoriesQuery = ''
+        // if(filters.selectedCategory.length>1){
+        //     for(let cat of filters.selectedCategory){
+        //         categoriesQuery += `&selectedCategory=${cat}`
+        //     }
+        // }else{
+        //     categoriesQuery += `&selectedCategory=${filters.selectedCategory}`
+        // }
       setApiUrl(
-        `http://localhost:3000/api/products?minPrice=${filters.minPrice}&maxPrice=${filters.maxPrice}&sortBy=${filters.sortBy}&selectedCategory=${filters.selectedCategory}`
+        `https://shopping-cart-backend-eta.vercel.app/api/products?minPrice=${filters.minPrice}&maxPrice=${filters.maxPrice}&sortBy=${filters.sortBy}&selectedCategory=${filters.selectedCategory.join('&selectedCategory=')}`
       );
     }
   }, [filters]);
@@ -74,7 +85,7 @@ export default function Products(){
             
             <div className="row">
                 <div className="col-md-3">
-                    <FilterSidebar filters={filters} setFilters={setFilters} categories={categories}/>
+                    <FilterSidebar categories={categories}/>
            
                 </div>
             <div className="col-md-9 bg-light">

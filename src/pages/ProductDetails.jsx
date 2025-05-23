@@ -8,7 +8,7 @@ export default function ProductDetails(){
     const {cartData,addItemToCart,removeItemFromCart,increaseDecreaseQuantity}  = useCartContext();
     const {wishlistData,addItemToWishlist,removeItemToWishlist} = useWishlistContext();
     const productId = useParams().productId;
-    const {data,loading,error} = useFetch(`http://localhost:3000/shoppingcart/products/${productId}`)
+    const {data,loading,error} = useFetch(`https://shopping-cart-backend-eta.vercel.app/shoppingcart/products/${productId}`)
     const sizes = ['S', 'M', 'L', 'XL', 'XXL'];
     console.log("wishlist data in product details>>",wishlistData)
     console.log(" wishlistData?.products?.some((prod)=>prod._id==productId)", wishlistData?.products?.some((prod)=>prod._id==productId))
