@@ -20,11 +20,11 @@ export default function Home(){
 
             <div>
       <div className="row g-4">
-        {data && data.data.categories.map((category, index) => (
+        {data && data?.data?.categories?.map((category, index) => (
           <div className="col-6 col-sm-4 col-md-2 text-center" key={index}>
             <div className="position-relative">
               <img
-                src="https://images.pexels.com/photos/27871997/pexels-photo-27871997/free-photo-of-a-suit-and-tie-hanging-on-a-hanger.jpeg"
+                src={category.photoUrl}
                 alt={category.name}
                 className="img-fluid"
               />

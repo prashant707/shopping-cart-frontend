@@ -14,6 +14,8 @@ export default function AddAddress(){
         state:'',
         city:'',
         country:'',
+        addressLine1:'',
+        addressLine2:'',
         houseNumber:'',
         landmark:'',
         addressType:''
@@ -26,7 +28,9 @@ export default function AddAddress(){
     }
 
     async function createAddress() {
-                  const response = await fetch('http://localhost:3000/api/profile/address/add',{
+
+        console.log("Address>>>",address)
+                  const response = await fetch('https://shopping-cart-backend-eta.vercel.app/api/profile/address/add',{
                         method:'POST',
                         headers:{
                             "Content-Type":"application/json"
@@ -52,7 +56,7 @@ export default function AddAddress(){
 
     function submitHandler(event){
         event.preventDefault();
-        if(address.userId && address.fullName && address.phoneNumber && address.pincode && address.state && address.city && address.country){
+        if(address.userId && address.addressLine1 && address.fullName && address.phoneNumber && address.pincode && address.state && address.city && address.country){
             
             console.log("submit");
             createAddress();
@@ -82,18 +86,29 @@ export default function AddAddress(){
 
                 <div className="col-md-6">
                     <label className="form-label">Phone Number</label>
-                    <input type="text" name="phoneNumber" className="form-control" value={address.phoneNumber} onChange={handleChange} required />
+                    <input type="number" name="phoneNumber" maxLength="10" className="form-control" value={address.phoneNumber} onChange={handleChange} required />
                 </div>
 
                 <div className="col-12">
-          <label className="form-label">Street Address</label>
+          <label className="form-label">Address Line 1</label>
           <input
             type="text"
-            name="street"
+            name="addressLine1"
             className="form-control"
-            value={address.street}
+            value={address.addressLine1}
             onChange={handleChange}
             required
+          />
+        </div>
+        <div className="col-12">
+          <label className="form-label">Address Line 2</label>
+          <input
+            type="text"
+            name="addressLine2"
+            className="form-control"
+            value={address.addressLine2}
+            onChange={handleChange}
+            
           />
         </div>
 
@@ -187,7 +202,7 @@ export default function AddAddress(){
 
              {showAlert && (
         <div className="alert alert-success mt-3" role="alert">
-          A simple success alert — check it out!
+          Address added successfully.
         </div>
       )}
 

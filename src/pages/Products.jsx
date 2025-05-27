@@ -58,16 +58,9 @@ export default function Products(){
         `https://shopping-cart-backend-eta.vercel.app/api/products?search=${filters.searchText}`
       );
     } else {
-        // let categoriesQuery = ''
-        // if(filters.selectedCategory.length>1){
-        //     for(let cat of filters.selectedCategory){
-        //         categoriesQuery += `&selectedCategory=${cat}`
-        //     }
-        // }else{
-        //     categoriesQuery += `&selectedCategory=${filters.selectedCategory}`
-        // }
+       
       setApiUrl(
-        `https://shopping-cart-backend-eta.vercel.app/api/products?minPrice=${filters.minPrice}&maxPrice=${filters.maxPrice}&sortBy=${filters.sortBy}&selectedCategory=${filters.selectedCategory.join('&selectedCategory=')}`
+        `https://shopping-cart-backend-eta.vercel.app/api/products?minPrice=${filters.minPrice}&maxPrice=${filters.maxPrice}&sortBy=${filters.sortBy}&selectedCategory=${filters.selectedCategory.join('&selectedCategory=')}&rating=${filters.rating}`
       );
     }
   }, [filters]);
@@ -89,7 +82,11 @@ export default function Products(){
            
                 </div>
             <div className="col-md-9 bg-light">
-                 {data?.data?.products && <ProductCard data={data}/>}
+                
+                 {data?.data?.products?.length>0 ? <ProductCard data={data}/> : <div className="container py-2"><div className="mb-2">
+                <span className="fw-bold fs-5">No Products Found. </span> 
+                
+            </div></div>}
             </div>
             </div>
     </div>);

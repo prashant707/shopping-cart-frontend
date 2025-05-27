@@ -2,13 +2,38 @@ import { useState,useContext,createContext, useEffect } from "react";
 
 const WishlistContext = createContext();
 const useWishlistContext = () => useContext(WishlistContext);
+
 export default useWishlistContext;
 
 
 export const WishlistContextProvider = ({children})=>{
-
-   
+    const [isItemRemovedFromWishlist,setIsItemRemovedFromWishlist] = useState(false);
+    const [isItemAddedToWishlist,setIsItemAddedToWishlist] = useState(false);
     const [wishlistData,setWishlistData] = useState({userId:'',products:[]});
+
+    
+
+    useEffect(()=>{
+       if (isItemAddedToWishlist) {
+    const timeout = setTimeout(() => {
+      setIsItemAddedToWishlist(false);
+    }, 3000);
+    
+    return () => clearTimeout(timeout); 
+  }
+        
+    },[isItemAddedToWishlist]);
+
+    useEffect(()=>{
+       if (isItemRemovedFromWishlist) {
+    const timeout = setTimeout(() => {
+      setIsItemRemovedFromWishlist(false);
+    }, 3000);
+    
+    return () => clearTimeout(timeout); 
+  }
+        
+    },[isItemRemovedFromWishlist]);
 
     useEffect(()=>{
          const fetchWishlist = async ()=>{
@@ -61,8 +86,11 @@ export const WishlistContextProvider = ({children})=>{
             const data = await response.json();
             
             if(data.message=='Product Added to wishlist'){
-                setWishlistData((prevState)=>({userId:reqBody.userId,products:[...prevState.products,...data.data.wishlist.productIds]}))
-                alert(data.message);
+                if(wishlistData?.products?.some(product=>product._id==productId)){
+                    return;
+                }
+                setWishlistData((prevState)=>({...prevState,userId:reqBody.userId,products:[...data.data.wishlist.productIds]}))
+                setIsItemAddedToWishlist(true);
             }
             
         }
@@ -98,7 +126,8 @@ export const WishlistContextProvider = ({children})=>{
 
             const data = await response.json();
             if(data.message=="Product Removed from wishlist"){
-                setWishlistData((prevState)=>({...prevState,products:[...prevState.products.filter((prod)=>prod._id!=productId)]}))
+                setWishlistData((prevState)=>({...prevState,products:[...prevState.products.filter((prod)=>prod._id!=productId)]}));
+                setIsItemRemovedFromWishlist(true);
             }
             
         }
@@ -107,7 +136,7 @@ export const WishlistContextProvider = ({children})=>{
     }
    }
 
-    return <WishlistContext.Provider value={{wishlistData,addItemToWishlist,removeItemToWishlist}}>
+    return <WishlistContext.Provider value={{wishlistData,addItemToWishlist,removeItemToWishlist,isItemAddedToWishlist,isItemRemovedFromWishlist}}>
         {children}
     </WishlistContext.Provider>
 }

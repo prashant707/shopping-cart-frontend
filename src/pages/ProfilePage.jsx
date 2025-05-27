@@ -22,12 +22,12 @@ export default function ProfilePage(){
                 </div>
 
                 <div className="d-grid gap-3">
-          <Link to="/orders" className="btn btn-outline-primary">
+          <Link to="/profile/orders" className="btn btn-outline-primary">
             View Orders
           </Link>
            
-          <Link to="/address" className="btn btn-outline-secondary">
-            Add Addresses
+          <Link to="/profile/address" className="btn btn-outline-secondary">
+            View Address
           </Link>
         </div>
                    

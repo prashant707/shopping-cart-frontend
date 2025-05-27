@@ -1,8 +1,17 @@
 export default function CartProductCard({cart,wishlist}){
     const {cartData,addItemToCart,removeItemFromCart,increaseDecreaseQuantity}  = cart;
     const {addItemToWishlist,removeItemToWishlist} = wishlist;
+
+
+    async function moveItemToWishlist(product) {
+        if(product){
+            addItemToWishlist(product);
+        removeItemFromCart(product);
+        }
+        
+    }
     return <div className="row"> {cartData.map(item => 
-        <div className="col-md-4">
+        <div className="col-md-4" key={item._id}>
             <div className="card">
                  <div className="row g-0">
         {/* Left Column - Image */}
@@ -36,7 +45,7 @@ export default function CartProductCard({cart,wishlist}){
             {/* Buttons */}
             <div className="d-grid gap-2">
               <button className="btn btn-secondary btn-sm" onClick={()=>removeItemFromCart(item.product)}>Remove From Cart</button>
-              <button className="btn btn-outline-secondary btn-sm" onClick={()=>addItemToWishlist(item.product)}>Move to Wishlist</button>
+              <button className="btn btn-outline-secondary btn-sm" onClick={()=>moveItemToWishlist(item.product)}>Move to Wishlist</button>
             </div>
           </div>
         </div>

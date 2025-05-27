@@ -10,7 +10,7 @@ export const FilterContextProvider = ({children})=>{
             maxPrice:10000,
             sortBy:'',
             selectedCategory:[],
-            rating:1,
+            rating:'',
             searchText:''
         });
 

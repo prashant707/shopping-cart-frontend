@@ -13,6 +13,9 @@ import CartPage from './pages/CartPage';
 import { FilterContextProvider } from './contexts/FilterContext';
 import AddAddress from './pages/AddAddress';
 import ProfilePage from './pages/ProfilePage';
+import Orders from './pages/Orders';
+import OrderSummary from './pages/OrderSummary';
+import Address from './pages/Address';
 
 function App() {
     
@@ -32,6 +35,9 @@ function App() {
         <Route path="/cart" element={<CartPage/>}></Route>
         <Route path="/profile" element={<ProfilePage/>}></Route>
         <Route path="/profile/address/add" element={<AddAddress/>}></Route>
+        <Route path="/profile/address" element={<Address/>}></Route>
+        <Route path="/profile/orders" element={<Orders/>}></Route>
+        <Route path="/profile/orders/:orderId" element={<OrderSummary/>}></Route>
       </Routes>
     </Router>
 
