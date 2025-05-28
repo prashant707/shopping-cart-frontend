@@ -29,7 +29,7 @@ export default function Address(){
     const {data,error,loading} = useFetch(`https://shopping-cart-backend-eta.vercel.app/api/profile/address/${userId}`);
 
     async function deleteAddressById(event,addressId) {
-        const response = await fetch(`https://shopping-cart-backend-eta.vercel.app/profile/address/${addressId}`,{method:'DELETE'});
+        const response = await fetch(`https://shopping-cart-backend-eta.vercel.app/api/profile/address/${addressId}`,{method:'DELETE'});
         if(!response.ok){
             if (response.status == 404) {
                 setIsNotFound(true);

@@ -19,8 +19,8 @@ const totalAmount = parseFloat(cartData?.reduce((acc,init)=> acc+init.product.pr
 const totalAmountWithDiscount = parseFloat(cartData?.reduce((acc,init)=>acc+init.product.price*init.quantity-init.product.price*init.quantity*init.product.discount/100,0).toFixed(2)) || 0;
 const totalDiscount = (totalAmount - totalAmountWithDiscount) || 0;
 const deliveryCharges = 199
-const finalAmount = (totalAmount+deliveryCharges);
 
+const finalAmount = (totalAmountWithDiscount+deliveryCharges);
 const userId = '67ee246df24c44d71f285bb6';
 
 useEffect(()=> {

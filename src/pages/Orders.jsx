@@ -30,7 +30,7 @@ return <div className="container py-4 bg-body-tertiary">
                     
                     <td>{order.orderStatus}</td>
                     <td>{order.paymentStatus}</td>
-                    <td>{order.totalAmountWithDiscount} <Link to={`profile/order/${order._id}`} className="btn btn-info float-end">View Details</Link></td>
+                    <td>{order.totalAmountWithDiscount+199} <Link to={`profile/order/${order._id}`} className="btn btn-info float-end">View Details</Link></td>
                     
                 </tr>
         )}
