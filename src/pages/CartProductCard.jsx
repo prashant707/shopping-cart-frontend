@@ -17,7 +17,7 @@ export default function CartProductCard({cart,wishlist}){
         {/* Left Column - Image */}
         <div className="col-md-4">
           <img
-            src="https://images.pexels.com/photos/27871997/pexels-photo-27871997/free-photo-of-a-suit-and-tie-hanging-on-a-hanger.jpeg"
+            src={item.product.photoUrl[0]}
             alt="Product"
             className="img-fluid"
             style={{ maxHeight: '250px', objectFit: 'cover' }}

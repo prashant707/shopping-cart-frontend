@@ -10,7 +10,7 @@ export const WishlistContextProvider = ({children})=>{
     const [isItemRemovedFromWishlist,setIsItemRemovedFromWishlist] = useState(false);
     const [isItemAddedToWishlist,setIsItemAddedToWishlist] = useState(false);
     const [wishlistData,setWishlistData] = useState({userId:'',products:[]});
-
+     const userId = '67ee246df24c44d71f285bb6';
     
 
     useEffect(()=>{
@@ -38,7 +38,7 @@ export const WishlistContextProvider = ({children})=>{
     useEffect(()=>{
          const fetchWishlist = async ()=>{
             try{
-                const userId = '67ee246df24c44d71f285bb6';
+               
                 if(!userId) return;
 
                 const response = await fetch(`https://shopping-cart-backend-eta.vercel.app/api/wishlist/${userId}`);

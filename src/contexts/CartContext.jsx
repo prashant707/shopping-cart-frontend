@@ -50,17 +50,21 @@ console.log("cart data >>>",cartData);
 useEffect(()=>{
     const fetchCartData = async ()=>{
         try{
+            if(!userId) return;
             const response = await fetch(`https://shopping-cart-backend-eta.vercel.app/api/cart/${userId}`);
 
         if(!response.ok){
-        console.warn("Cart not found for user:", userId);
-          setCartData([]);
-            
-        }
+                 
+                 return;
+                
+            }
 
         const data = await response.json();
 
         if(data.message==="Cart Data fetched Successfully"){
+            setCartData(data.data.cart)
+        }
+        if(data.message==="No data found."){
             setCartData(data.data.cart)
         }
         }
