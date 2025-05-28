@@ -82,8 +82,9 @@ export default function Products(){
            
                 </div>
             <div className="col-md-9 bg-light">
-                
-                 {data?.data?.products?.length>0 ? <ProductCard data={data}/> : <div className="container py-2"><div className="mb-2">
+                {loading && <p>Loading...</p>}
+                {!loading && error && <p>{error}</p>}
+                {data?.data?.products?.length>0 ? <ProductCard data={data}/> : <div className="container py-2"><div className="mb-2">
                 <span className="fw-bold fs-5">No Products Found. </span> 
                 
             </div></div>}

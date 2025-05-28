@@ -26,7 +26,7 @@ export default function FilterSidebar({categories}){
     maxPrice: 20000,
     sortBy: '',
     selectedCategory: [],
-    ratings:'',
+    rating:1,
     searchText:''
   })}>Clear</p>
 </div>
@@ -64,7 +64,7 @@ export default function FilterSidebar({categories}){
           <br/>
       <div>
         <h4>Rating:</h4>
-        {ratings.map(rating=><div><input type="radio" name="radio" value={rating} onChange={(event)=>setFilters(prev=>({...prev,rating:event.target.value}))}/> <label>{`${rating} star & above`}</label></div>)}
+        {ratings.map(rating=><div><input type="radio" name="radio" value={rating} checked={filters.rating==rating} onChange={(event)=>setFilters(prev=>({...prev,rating:Number(event.target.value)}))}/> <label>{`${rating} star & above`}</label></div>)}
         </div>  
         </div>
     </div>

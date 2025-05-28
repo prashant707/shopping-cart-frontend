@@ -14,9 +14,9 @@ const wishlistDataCount = wishlistData?.products?.length || 0;
 function handleSearch(event){
 const text = event.target.value;
 setFilters(prev=>({minPrice: 0,
-    maxPrice: 10000,
+    maxPrice: 20000,
     sortBy: '',
-    selectedCategory: [],searchText:text}));
+    selectedCategory: [],rating:'',searchText:text}));
 }
 
 return <header className="container">
