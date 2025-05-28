@@ -7,7 +7,7 @@ export default useFilterContext;
 export const FilterContextProvider = ({children})=>{
     const [filters,setFilters] = useState({
             minPrice:0,
-            maxPrice:10000,
+            maxPrice:20000,
             sortBy:'',
             selectedCategory:[],
             rating:'',

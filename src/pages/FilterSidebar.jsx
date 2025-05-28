@@ -23,7 +23,7 @@ export default function FilterSidebar({categories}){
   <h5>Filters</h5>
   <p onClick={() => setFilters({
     minPrice: 0,
-    maxPrice: 10000,
+    maxPrice: 20000,
     sortBy: '',
     selectedCategory: [],
     ratings:'',
